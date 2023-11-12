@@ -1,8 +1,36 @@
 defmodule MilestoneOne.Client do
   @server MilestoneOne.Server  # атрибут для сервера прилодения
 
-  def main(initial_stones_num \\ 30) do
-    play(initial_stones_num)
+  def main(argv) do
+    parse(argv) |> set_initial_stones()
+
+    next_turn()
+  end
+
+  defp set_initial_stones(stones_to_set) do
+    case GenServer.call(@server, {:set, stones_to_set}) do
+      {:stones_set, player, num_stones} ->
+        IO.puts("Welcome! It's player #{player} turn. #{num_stones} in the pile.")
+
+      {:error, reason} ->
+        IO.puts("\nThere was an error: #{reason}")
+        exit(:normal)
+    end
+  end
+
+  defp parse(arguments) do
+    # OptionParser встроено в elixir
+    {opts, _, _ } = OptionParser.parse(arguments, switches: [stones: :integer])
+
+    opts |> Keyword.get(
+      :stones,
+      Application.get_env(:milestone_one, :default_stones)
+    ) # достаём значения по умолчанию, если пользователеь не ввел количество камней из терминала
+    # источник:
+    # defmodule MilestoneOne.MixProject do
+    #   def application do
+    #     [
+    #       env: [ default_stones: 30 ],
   end
 
   def play(initial_stones_num) do

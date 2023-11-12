@@ -1,16 +1,33 @@
 defmodule MilestoneOne.Server do
-  use GenServer 
+  use GenServer, restart: :transient # перезапускать только по причине abnormal
+                          # :permanent - постоянно перезапускать не обращая внимание на причину вылета
+                          # :temporary - не надо перезапускать сервер
 
   alias MilestoneOne.Impl # такая запись позволяет опускать далее левую часть имени модуля
 
-  def init({:started, stones_num}) do # главный callback GenServer
+  # def start_link(opts) do
+  def start_link(_) do
+    GenServer.start_link(__MODULE__, :started, name: __MODULE__)
+  end
+
+  # def init({:started, stones_num}) do # главный callback GenServer
+  def init(:started) do # главный callback GenServer
     # состояния игры:
     # :started
 
     # :game_in_progress
 
     # :game_ended
-    {:ok, {1, stones_num, :started}}
+
+    IO.puts("Booting MilestoneOne server!")
+
+    {:ok, {1, nil, :started}}
+  end
+
+  # дополнительная инструкция по установке начальных данных по num_stones
+  # только перед началом игры - статус {player, nil, :started}
+  def handle_call({:set, num_stones}, _, {player, nil, :started}) do
+    Impl.do_set({player, num_stones})
   end
 
   # формируем ответ на GenServer.call

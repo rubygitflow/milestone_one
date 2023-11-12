@@ -1,4 +1,20 @@
 defmodule MilestoneOne.Impl do
+  def do_set({player, num_stones}) when not is_integer(num_stones) or num_stones < 4 do
+    {
+      :stop,
+      :normal,
+      {
+        :error,
+        "You have to set at least 4 stones!"
+      },
+      {player, nil, :game_ended}
+    }
+  end
+
+  def do_set({player, num_stones}) do
+    {:reply, {:stones_set, player, num_stones}, {player, num_stones, :game_in_progress}}
+  end
+
   # обрабатываем ошибки
   def do_take({player, num_stones, current_stones}) # добавляем gard close
       when not is_integer(num_stones) or
