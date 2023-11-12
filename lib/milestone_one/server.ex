@@ -1,7 +1,7 @@
 defmodule MilestoneOne.Server do
   use GenServer 
 
-  alias MilestoneOne.Impl
+  alias MilestoneOne.Impl # такая запись позволяет опускать далее левую часть имени модуля
 
   def init({:started, stones_num}) do # главный callback GenServer
     # состояния игры:
@@ -27,13 +27,17 @@ defmodule MilestoneOne.Server do
   #   {:no_reply, new_state}
   # end
 
-  # def handle_call({:take, num_stones}, _, {player, current_stones, :game_in_progress}) do
-  #   Impl.do_take({player, num_stones, current_stones})
-  # end
+  # 1. теперь обработаем инструкцию take у вызова 
+  # GenServer.call(@server, {:take, ask_stones()})
+  # 2. вторая переменная входных данных предназначена для идентификатора процесса, который нам всё ещё не нужен
+  def handle_call({:take, num_stones}, _, {player, current_stones, :game_in_progress}) do
+    Impl.do_take({player, num_stones, current_stones})
+  end
 
-  # def terminate(reason, state) do
-  #   IO.inspect(reason)
-  #   IO.inspect(state)
-  #   "See you soon!" |> IO.puts
-  # end
+  # обрабатываем остановку сервера
+  def terminate(reason, state) do
+    IO.inspect(reason)
+    IO.inspect(state)
+    "See you soon!" |> IO.puts
+  end
 end
