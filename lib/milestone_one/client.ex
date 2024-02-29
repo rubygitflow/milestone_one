@@ -1,6 +1,7 @@
 defmodule MilestoneOne.Client do
-  @server MilestoneOne.Server  # атрибут для сервера прилодения
+  @server MilestoneOne.Server  # атрибут для сервера приложения
 
+  # превращаем приложение в консольное
   def main(argv) do
     parse(argv) |> set_initial_stones()
 
@@ -25,7 +26,7 @@ defmodule MilestoneOne.Client do
     opts |> Keyword.get(
       :stones,
       Application.get_env(:milestone_one, :default_stones)
-    ) # достаём значения по умолчанию, если пользователеь не ввел количество камней из терминала
+    ) # достаём значения по умолчанию, если пользователь не ввел количество камней из терминала
     # источник:
     # defmodule MilestoneOne.MixProject do
     #   def application do

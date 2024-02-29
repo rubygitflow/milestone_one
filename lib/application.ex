@@ -1,6 +1,7 @@
 defmodule MilestoneOne.Application do
   use Application # часть экосистемы Elixir
 
+  # Супервайзер над ошибками приложения
   def start(_type, _opts) do # it's callback function
     children = [
       # {MilestoneOne.Server, 42} # здесь возможно задавать стартовые аргументы
@@ -9,7 +10,7 @@ defmodule MilestoneOne.Application do
 
     opts = [
       strategy: :one_for_one, # самая простая стратегия - перезапуск сервиса, если он "умирает"
-      # one_for_all - все остальные процессы тоде будут остановллены и перезапущены
+      # one_for_all - все остальные процессы тоже будут остановлены и перезапущены
       # rest_for_one - будут перезапущены процессы в children, которые стоят после разрушенного 
       name: MilestoneOne.Supervisor
     ]

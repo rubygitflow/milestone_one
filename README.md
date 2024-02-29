@@ -1,21 +1,19 @@
 # MilestoneOne
 
-**TODO: Add description**
+Console application
 
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `milestone_one` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:milestone_one, "~> 0.1.0"}
-  ]
-end
+## Check the Elixir version
+```bash
+$ elixir --version
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/milestone_one>.
+## Run the appication
+Launching the application from the console in the milestone_one root folder
+```bash
+% escript milestone_one --stones 15
+```
+Or start the application with default options
+```bash
+% escript milestone_one
+```
 
