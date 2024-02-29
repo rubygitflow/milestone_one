@@ -16,4 +16,3 @@ Or start the application with default options
 ```bash
 % escript milestone_one
 ```
-
